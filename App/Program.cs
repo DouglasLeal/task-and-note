@@ -1,4 +1,6 @@
 using App.Data;
+using App.Interfaces;
+using App.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +17,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddTransient<ITarefaRepository, TarefaRepository>();
 
 var app = builder.Build();
 
