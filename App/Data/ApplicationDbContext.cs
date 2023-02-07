@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using App.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Data
@@ -9,5 +10,7 @@ namespace App.Data
             : base(options)
         {
         }
+
+        public DbSet<Tarefa> Tarefas { get; set; }
     }
 }
