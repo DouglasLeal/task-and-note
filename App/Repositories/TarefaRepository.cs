@@ -10,10 +10,10 @@ namespace App.Repositories
         private readonly ApplicationDbContext _db;
         private readonly DbSet<Tarefa> _dbSet;
 
-        public TarefaRepository(ApplicationDbContext db, DbSet<Tarefa> dbSet)
+        public TarefaRepository(ApplicationDbContext db)
         {
             _db = db;
-            _dbSet = dbSet;
+            _dbSet = db.Set<Tarefa>();
         }
 
         public async Task Criar(Tarefa tarefa)

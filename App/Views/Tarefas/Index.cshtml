@@ -1,0 +1,144 @@
+﻿@using App.ViewModels;
+@model TarefaViewModel;
+@{
+    var Tarefas = ViewBag.Tarefas;
+}
+
+<main class="tarefas">
+    <h1 class="text-center">Tarefas</h1>
+
+    <div class="card box-shadow mb-5">
+        <div class="card-body">
+            <form asp-action="criar">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group mb-3">
+                    <input asp-for="Conteudo" class="form-control" placeholder="Nova tarefa..." />
+                    <span asp-validation-for="Conteudo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Criar" class="btn btn-primary d-block w-100" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card box-shadow">
+        <div class="card-body">
+            @foreach (TarefaViewModel tarefa in Tarefas)
+            {
+                <div class="bg-dark bg-gradient text-white p-3 mb-3 d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <form asp-action="EditarCheckbox" class="me-3">
+                            <input name="Id" type="hidden" value="@tarefa.Id">
+                            @if (tarefa.Concluido)
+                            {
+                                <input name="Concluido" class="m-0" type="checkbox" value="@tarefa.Concluido" checked>
+                            }
+                            else
+                            {
+                                <input name="Concluido" class="m-0" type="checkbox" value="@tarefa.Concluido">
+                            }
+                        </form>
+                        <p data-id="@tarefa.Id" class="conteudo m-0">@tarefa.Conteudo</p>
+                    </div>
+
+                    <form asp-action="Excluir">
+                        <input name="Id" type="hidden" value="@tarefa.Id">
+                        <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                    </form>
+                </div>
+            }
+
+        </div>
+    </div>
+</main>
+
+<script>
+    let checkboxes = document.querySelectorAll("input[type=checkbox]");
+    let listaConteudo = document.querySelectorAll(".conteudo");
+
+    let ultimoConteudoClicado = "";
+    let ultimoElementoPai = null;
+
+    let editando = false;
+
+    checkboxes.forEach(el => {
+        el.onclick = () => {
+            el.parentElement.submit();
+        }
+    });
+
+    listaConteudo.forEach(el => {
+        el.ondblclick = () => {
+            if (!editando) {
+                editando = true;
+                ultimoConteudoClicado = el.innerText;
+                ultimoElementoPai = el.parentElement;
+
+                let dados = criarFormParaEdicao(el.dataset.id);
+                ultimoElementoPai.appendChild(dados[0]);
+                el.remove();
+
+                dados[1].focus();
+
+                let btnEditar = document.querySelector(".btn-editar");
+
+                let editarClicado = false;
+
+                btnEditar.onclick = () => {
+                    editarClicado = true;
+                }
+
+                dados[1].onblur = () => {
+                    setTimeout(() => {
+                        if (editarClicado) {
+                            return;
+                        } else {
+                            editando = false;
+
+                            ultimoElementoPai.appendChild(el);
+
+                            dados[0].remove();
+                        }
+                    }, 100);
+                }
+            }
+        }
+    });
+
+    function criarFormParaEdicao(id) {
+
+        let form = document.createElement("form");
+        form.action = "/Tarefas/EditarConteudo";
+
+        let inputId = document.createElement("input");
+        inputId.type = "hidden";
+        inputId.name = "Id";
+        inputId.value = id;
+
+        let divInputGroup = document.createElement("div");
+        divInputGroup.classList.add("input-group")
+
+        let inputConteudo = document.createElement("input");
+        inputConteudo.type = "text";
+        inputConteudo.name = "Conteudo";
+        inputConteudo.value = ultimoConteudoClicado;
+        inputConteudo.classList.add("form-control");
+
+
+        let button = document.createElement("button");
+        button.innerText = "Editar";
+        button.classList.add("btn")
+        button.classList.add("btn-warning")
+        button.classList.add("btn-editar")
+
+        divInputGroup.appendChild(inputConteudo);
+        divInputGroup.appendChild(button);
+
+        form.appendChild(inputId);
+        form.appendChild(divInputGroup);
+
+
+        return [form, inputConteudo];
+    }
+</script>

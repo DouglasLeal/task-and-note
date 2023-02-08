@@ -6,8 +6,6 @@ namespace App.ViewModels
 {
     public class TarefaViewModel
     {
-        public class Tarefa
-        {
             [Key]
             public int Id { get; set; }
 
@@ -21,6 +19,5 @@ namespace App.ViewModels
 
             public string? AspNetUserId { get; set; }
             public IdentityUser? AspNetUser { get; set; }
-        }
     }
 }
