@@ -18,7 +18,7 @@ namespace App.Repositories
 
         public async Task Criar(Tarefa tarefa)
         {
-            await _db.AddAsync(tarefa);
+            await _dbSet.AddAsync(tarefa);
             await _db.SaveChangesAsync();
         }
 
