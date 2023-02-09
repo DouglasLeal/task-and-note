@@ -1,0 +1,91 @@
+﻿@using App.ViewModels;
+@model CategoriaViewModel;
+@{
+    var Categorias = ViewBag.Categorias;
+}
+
+<main class="categorias">
+    <h1 class="text-center mb-5">Categorias</h1>
+
+    <div class="card box-shadow mb-5">
+        <div class="card-body">
+            @if (Model?.Id == null)
+            {
+                <form asp-action="criar">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Nome" type="text" class="form-control" placeholder="Nome">
+                                <label asp-for="Nome">Nome</label>
+                                <span asp-validation-for="Nome" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Slug" type="text" class="form-control" placeholder="Slug">
+                                <label asp-for="Slug">Slug</label>
+                                <span asp-validation-for="Slug" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary d-block w-100">Criar</button>
+                </form>               
+            }
+            else
+            {
+                <form asp-action="EditarAction" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Nome" type="text" class="form-control" placeholder="Nome">
+                                <label asp-for="Nome">Nome</label>
+                                <span asp-validation-for="Nome" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Slug" type="text" class="form-control" placeholder="Slug">
+                                <label asp-for="Slug">Slug</label>
+                                <span asp-validation-for="Slug" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-warning d-block w-100">Editar</button>
+                </form>               
+            }
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Slug</th>
+                <th>#</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (CategoriaViewModel categoria in Categorias)
+            {
+                <tr>
+                    <td>@categoria.Nome</td>
+                    <td>@categoria.Slug</td>
+                    <td class="d-flex gap-1">
+                        <form asp-action="Editar">
+                            <input name="Id" type="hidden" value="@categoria.Id">
+                            <button class="btn btn-warning"><i class="fa-solid fa-pen"></i></button>
+                        </form>
+                        <form asp-action="Excluir">
+                            <input name="Id" type="hidden" value="@categoria.Id">
+                            <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</main>

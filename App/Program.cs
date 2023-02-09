@@ -3,12 +3,15 @@ using App.Interfaces;
 using App.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Logging;
+using Slugify;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<ITarefaRepository, TarefaRepository>();
 builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
 
+builder.Services.AddTransient<ISlugHelper, SlugHelper>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add services to the container.

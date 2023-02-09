@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace App.Models
 {
@@ -16,5 +17,9 @@ namespace App.Models
         [MinLength(1, ErrorMessage = "O campo {0} deve ter no mínimo {1} caracteres.")]
         [MaxLength(50, ErrorMessage = "O campo {0} deve ter no máximo {1} caracteres.")]
         public string? Slug { get; set; }
+
+        [Required]
+        public string? AspNetUserId { get; set; }
+        public IdentityUser? AspNetUser { get; set; }
     }
 }

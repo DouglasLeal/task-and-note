@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace App.ViewModels
 {
@@ -13,5 +14,8 @@ namespace App.ViewModels
         public string? Nome { get; set; }
 
         public string? Slug { get; set; }
+
+        public string? AspNetUserId { get; set; }
+        public IdentityUser? AspNetUser { get; set; }
     }
 }

@@ -41,6 +41,10 @@ namespace App.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            var tarefas = await _tarefaRepository.Listar();
+
+            var viewModels = _mapper.Map<IEnumerable<TarefaViewModel>>(tarefas);
+            ViewBag.Tarefas = viewModels;
             return View("Index", viewModel);
         }
 
