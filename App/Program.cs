@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<ITarefaRepository, TarefaRepository>();
 builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddTransient<INotaRepository, NotaRepository>();
 
 builder.Services.AddTransient<ISlugHelper, SlugHelper>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

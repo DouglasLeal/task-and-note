@@ -13,5 +13,6 @@ namespace App.Data
 
         public DbSet<Tarefa> Tarefas { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Nota> Notas { get; set; }
     }
 }
