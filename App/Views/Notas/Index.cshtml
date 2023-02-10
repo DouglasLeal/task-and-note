@@ -1,0 +1,45 @@
+﻿@using App.Models;
+@model IEnumerable<App.ViewModels.NotaViewModel>
+@{
+
+    string verificaCor(Cor? cor)
+    {
+        switch (cor)
+        {
+            case Cor.Azul: return "bg-primary";
+            case Cor.Cinza: return "bg-secondary";
+            case Cor.Verde: return "bg-success";
+            case Cor.Vermelho: return "bg-danger";
+            case Cor.Amarelo: return "bg-warning";
+            case Cor.Branco: return "bg-light";
+            case Cor.Preto: return "bg-dark";
+            default: return "";
+        }
+    }
+}
+
+<h1>Notas</h1>
+
+<p>
+    <a asp-action="Criar">Criar Novo</a>
+</p>
+
+@foreach (var nota in Model)
+{
+    <div class="card text-white @verificaCor(nota.Cor) mb-3" style="max-width: 18rem;">
+        <div class="card-header"><h5>@nota.Titulo</h5></div>
+        <div class="card-body">
+            <p class="card-text">@nota.Conteudo</p>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-center gap-1">
+            <form asp-action="Editar" method="get" asp-route-id="@nota.Id">
+                <button class="btn btn-outline-warning">Editar</button>
+            </form>
+
+            <form asp-action="Excluir" asp-route-id="@nota.Id">
+                <button class="btn btn-outline-danger">Excluir</button>
+            </form>            
+        </div>        
+    </div>
+}

@@ -4,7 +4,7 @@
 
 namespace App.Data.Migrations
 {
-    public partial class TabelaCategoria : Migration
+    public partial class TabelaCategorias : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

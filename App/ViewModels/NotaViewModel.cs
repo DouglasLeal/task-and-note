@@ -17,14 +17,14 @@ namespace App.ViewModels
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [DisplayName("Conteúdo")]
-        public string? Conteúdo { get; set; }
+        public string? Conteudo { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public Cor? Cor { get; set; }
 
         [Required]
         [DisplayName("Categoria")]
-        public string? CategoriaId { get; set; }
+        public int CategoriaId { get; set; }
         public Categoria? Categoria { get; set; }
 
         public string? AspNetUserId { get; set; }

@@ -46,7 +46,7 @@ namespace App.Repositories
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _db.Dispose();
         }
     }
 }

@@ -1,0 +1,42 @@
+﻿@model App.ViewModels.NotaViewModel
+@{
+}
+
+<h1>Editar</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="criar" asp-route-id="Id" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group mb-3">
+                        <label asp-for="Titulo" class="control-label fw-bold"></label>
+                        <input asp-for="Titulo" type="text" class="form-control">
+                        <span asp-validation-for="Titulo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group mb-3">
+                        <label asp-for="CategoriaId" class="control-label fw-bold"></label>
+                        <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.CategoriaId"></select>
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <div class="form-group mb-3">
+                        <label asp-for="Cor" class="control-label fw-bold"></label>
+                        <select asp-for="Cor" class="form-control" asp-items="Html.GetEnumSelectList<Cor>()"></select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group mb-3">
+                        <label asp-for="Conteudo" class="control-label fw-bold"></label>
+                        <textarea asp-for="Conteudo" type="text" class="form-control"></textarea>
+                        <span asp-validation-for="Conteudo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-warning d-block w-100">Editar</button>
+        </form>
+    </div>
+</div>

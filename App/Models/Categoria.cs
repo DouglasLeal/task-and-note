@@ -21,5 +21,7 @@ namespace App.Models
         [Required]
         public string? AspNetUserId { get; set; }
         public IdentityUser? AspNetUser { get; set; }
+
+        public IEnumerable<Nota>? Notas { get; set; }
     }
 }

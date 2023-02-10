@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace App.Models
 {
@@ -16,13 +17,15 @@ namespace App.Models
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [DisplayName("Conteúdo")]
-        public string? Conteúdo { get; set; }
+        public string? Conteudo { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public Cor? Cor { get; set; }
 
         [Required]
-        public string? CategoriaId { get; set; }
+        [DisplayName("Categoria")]
+        public int CategoriaId { get; set; }
+        [ForeignKey("CategoriaId")]
         public Categoria? Categoria { get; set; }
 
         [Required]
