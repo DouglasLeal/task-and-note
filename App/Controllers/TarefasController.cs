@@ -2,11 +2,13 @@
 using App.Models;
 using App.ViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.Controllers
 {
+    [Authorize]
     public class TarefasController : Controller
     {
         private readonly ITarefaRepository _tarefaRepository;
@@ -22,7 +24,8 @@ namespace App.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var tarefas = await _tarefaRepository.Listar();
+            var usuario = await _userManager.GetUserAsync(User);
+            var tarefas = await _tarefaRepository.Listar(usuario.Id);
 
             var viewModels = _mapper.Map<IEnumerable<TarefaViewModel>>(tarefas);
             ViewBag.Tarefas = viewModels;
@@ -31,17 +34,18 @@ namespace App.Controllers
 
         public async Task<IActionResult> Criar([Bind("Conteudo")] TarefaViewModel viewModel)
         {
+            var usuario = await _userManager.GetUserAsync(User);
             if (ModelState.IsValid)
             {
                 var tarefa = _mapper.Map<Tarefa>(viewModel);
-                var usuario = await _userManager.GetUserAsync(User);
+                
                 tarefa.AspNetUserId = usuario.Id;
 
                 await _tarefaRepository.Criar(tarefa);
                 return RedirectToAction(nameof(Index));
             }
 
-            var tarefas = await _tarefaRepository.Listar();
+            var tarefas = await _tarefaRepository.Listar(usuario.Id);
 
             var viewModels = _mapper.Map<IEnumerable<TarefaViewModel>>(tarefas);
             ViewBag.Tarefas = viewModels;

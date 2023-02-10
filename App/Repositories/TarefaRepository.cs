@@ -22,9 +22,12 @@ namespace App.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IList<Tarefa>> Listar()
+        public async Task<IList<Tarefa>> Listar(string usuarioId)
         {
-            return await _dbSet.OrderBy(t => t.Concluido).ThenBy(t => t.Conteudo).ToListAsync();
+            return await _dbSet.OrderBy(t => t.Concluido)
+                            .ThenBy(t => t.Conteudo)
+                            .Where(t => t.AspNetUserId == usuarioId)
+                            .ToListAsync();
         }
 
         public async Task<Tarefa?> BuscarPorId(int id)

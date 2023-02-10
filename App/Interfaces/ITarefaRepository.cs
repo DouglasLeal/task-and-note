@@ -6,7 +6,7 @@ namespace App.Interfaces
     {
         Task Criar(Tarefa tarefa);
         Task<Tarefa> BuscarPorId(int id);
-        Task<IList<Tarefa>> Listar();
+        Task<IList<Tarefa>> Listar(string usuarioId);
         Task Atualizar(Tarefa tarefa);
         Task Excluir(Tarefa tarefa);
     }
