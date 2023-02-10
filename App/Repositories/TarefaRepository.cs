@@ -24,7 +24,7 @@ namespace App.Repositories
 
         public async Task<IList<Tarefa>> Listar()
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.OrderBy(t => t.Concluido).ThenBy(t => t.Conteudo).ToListAsync();
         }
 
         public async Task<Tarefa?> BuscarPorId(int id)

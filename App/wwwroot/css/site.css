@@ -22,9 +22,13 @@ body {
 }
 
 .tarefas input[type=checkbox]{
-    
     height: 30px;
     width: 30px;
     margin: 0;
     cursor: pointer;
+}
+
+.tarefas .checked{
+    opacity: .85;
+    text-decoration: line-through;
 }
