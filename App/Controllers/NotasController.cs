@@ -13,7 +13,6 @@ using System.Runtime.ConstrainedExecution;
 namespace App.Controllers
 {
     [Authorize]
-    [Route("[controller]")]
     public class NotasController : Controller
     {
         private readonly INotaRepository _notaRepository;
@@ -36,7 +35,7 @@ namespace App.Controllers
             _slugHelper = slugHelper;
         }
 
-        [HttpGet("/")]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var usuario = await _userManager.GetUserAsync(User);
@@ -47,7 +46,7 @@ namespace App.Controllers
             return View(viewModels);
         }
 
-        [HttpGet("/Criar")]
+        [HttpGet]
         public async Task<IActionResult> Criar()
         {
             var usuario = await _userManager.GetUserAsync(User);
@@ -57,7 +56,7 @@ namespace App.Controllers
             return View();
         }
 
-        [HttpPost("/Criar")]
+        [HttpPost]
         public async Task<IActionResult> Criar([Bind("Titulo, Conteudo, CategoriaId, Cor")] NotaViewModel viewModel)
         {
             var usuario = await _userManager.GetUserAsync(User);
@@ -78,7 +77,7 @@ namespace App.Controllers
             return View("Criar", viewModel);
         }
 
-        [HttpGet("/Editar/{id:int}")]
+        [HttpGet]
         public async Task<IActionResult> Editar(int id)
         {
             var usuario = await _userManager.GetUserAsync(User);
@@ -91,7 +90,7 @@ namespace App.Controllers
             return View(viewModel);
         }
 
-        [HttpPost("/Editar/{id:int}")]
+        [HttpPost]
         public async Task<IActionResult> Editar(int id, [Bind("Titulo, Conteudo, CategoriaId, Cor")] NotaViewModel viewModel)
         {
             var nota = await _notaRepository.BuscarPorId(id);
@@ -105,7 +104,7 @@ namespace App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost("/Excluir/{id:int}")]
+        [HttpPost]
         public async Task<IActionResult> Excluir(int id)
         {
             var tarefa = await _notaRepository.BuscarPorId(id);
