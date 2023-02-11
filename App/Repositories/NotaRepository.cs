@@ -25,7 +25,7 @@ namespace App.Repositories
 
         public async Task<IList<Nota>> Listar(string usuarioId)
         {
-            return await _dbSet.Where(n => n.AspNetUserId == usuarioId).ToListAsync();
+            return await _dbSet.Where(n => n.AspNetUserId == usuarioId).Include(n => n.Categoria).ToListAsync();
         }
 
         public async Task<Nota?> BuscarPorId(int id)

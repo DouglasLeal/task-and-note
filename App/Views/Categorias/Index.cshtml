@@ -1,11 +1,13 @@
 ﻿@using App.ViewModels;
 @model CategoriaViewModel;
 @{
+    ViewData["Title"] = "Categorias";
+
     var Categorias = ViewBag.Categorias;
 }
 
 <main class="categorias">
-    <h1 class="text-center mb-5">Categorias</h1>
+    <h1 class="text-center mb-3">@ViewData["Title"]</h1>
 
     <div class="card box-shadow mb-5">
         <div class="card-body">

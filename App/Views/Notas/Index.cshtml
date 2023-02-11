@@ -1,24 +1,39 @@
 ﻿@using App.Models;
 @model IEnumerable<App.ViewModels.NotaViewModel>
 @{
+    ViewData["Title"] = "Notas";
 
-    string verificaCor(Cor? cor)
+    string VerificarCorCard(Cor? cor)
     {
         switch (cor)
         {
-            case Cor.Azul: return "bg-primary";
-            case Cor.Cinza: return "bg-secondary";
-            case Cor.Verde: return "bg-success";
-            case Cor.Vermelho: return "bg-danger";
-            case Cor.Amarelo: return "bg-warning";
+            case Cor.Azul: return "bg-primary text-white";
+            case Cor.Cinza: return "bg-secondary text-white";
+            case Cor.Verde: return "bg-success text-white";
+            case Cor.Vermelho: return "bg-danger text-white";
+            case Cor.Amarelo: return "bg-warning text-white";
             case Cor.Branco: return "bg-light";
-            case Cor.Preto: return "bg-dark";
+            case Cor.Preto: return "bg-dark text-white";
             default: return "";
         }
     }
+
+    string DefineCorTexto(Cor? cor)
+    {
+        if (cor == Cor.Branco) return "text-dark";
+
+        return "text-white";
+    }
+
+    string DefineCorBadge(Cor? cor)
+    {
+        if (cor == Cor.Preto) return "bg-light text-dark";
+
+        return "bg-dark";
+    }
 }
 
-<h1>Notas</h1>
+<h1 class="text-center mb-3">@ViewData["Title"]</h1>
 
 <p>
     <a asp-action="Criar">Criar Novo</a>
@@ -28,7 +43,7 @@
     @foreach (var nota in Model)
     {
         <div class="col-4 d-flex align-items-stretch">
-            <div class="card text-white @verificaCor(nota.Cor) mb-3 w-100">
+            <div class="card box-shadow @VerificarCorCard(nota.Cor) mb-3 w-100">
                 <div class="card-header d-flex justify-content-between">
                     <h5>@nota.Titulo</h5>
 
@@ -42,7 +57,8 @@
                         </form>
                     </div>
                 </div>
-                <div class="card-body d-flex flex-column">
+                <div class="card-body d-flex flex-column align-items-start">
+                    <span class="badge @DefineCorBadge(nota.Cor) mb-3">@nota.Categoria.Nome</span>
                     <p class="card-text">@nota.Conteudo</p>
                 </div>
             </div>

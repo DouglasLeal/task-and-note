@@ -1,12 +1,13 @@
 ﻿@model App.ViewModels.NotaViewModel
 @{
+    ViewData["Title"] = "Notas";
 }
 
-<h1>Editar</h1>
+<h1 class="text-center mb-3">Editar Nota</h1>
 
-<div class="card">
+<div class="card box-shadow">
     <div class="card-body">
-        <form asp-action="criar" asp-route-id="Id" method="post">
+        <form asp-action="Editar" asp-route-id="@Model.Id" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
                 <div class="col-12">
