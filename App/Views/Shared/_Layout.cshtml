@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -19,18 +23,22 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 gap-3">
-                        <li class="nav-item">
-                            <a class="btn btn-outline-secondary" asp-area="" asp-controller="Tarefas" asp-action="Index">Tarefas</a>
-                        </li>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-outline-secondary" asp-area="" asp-controller="Tarefas" asp-action="Index">Tarefas</a>
+                            </li>
 
-                        <li class="nav-item dropdown">
-                            <a class="btn btn-outline-secondary" asp-area="" asp-controller="Notas" asp-action="Index">Notas</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="text-primary btn btn-link dropdown-item" asp-area="" asp-controller="Categorias" asp-action="Index">Categorias</a></li>
-                            </ul>
-                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="btn btn-outline-secondary" asp-area="" asp-controller="Notas" asp-action="Index">Notas</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="text-primary btn btn-link dropdown-item" asp-area="" asp-controller="Categorias" asp-action="Index">Categorias</a></li>
+                                </ul>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
