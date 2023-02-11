@@ -35,7 +35,9 @@ namespace App.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var notas = await _notaRepository.Listar();
+            var usuario = await _userManager.GetUserAsync(User);
+
+            var notas = await _notaRepository.Listar(usuario.Id);
 
             var viewModels = _mapper.Map<IEnumerable<NotaViewModel>>(notas);
             return View(viewModels);
@@ -44,8 +46,9 @@ namespace App.Controllers
         [HttpGet]
         public async Task<IActionResult> Criar()
         {
+            var usuario = await _userManager.GetUserAsync(User);
 
-            ViewBag.CategoriaId = new SelectList(await _categoriaRepository.Listar(), "Id", "Nome");
+            ViewBag.CategoriaId = new SelectList(await _categoriaRepository.Listar(usuario.Id), "Id", "Nome");
 
             return View();
         }
@@ -53,11 +56,12 @@ namespace App.Controllers
         [HttpPost]
         public async Task<IActionResult> Criar([Bind("Titulo, Conteudo, CategoriaId, Cor")] NotaViewModel viewModel)
         {
+            var usuario = await _userManager.GetUserAsync(User);
 
             if (ModelState.IsValid)
             {
                 var nota = _mapper.Map<Nota>(viewModel);
-                var usuario = await _userManager.GetUserAsync(User);
+                
                 nota.AspNetUserId = usuario.Id;
 
 
@@ -65,7 +69,7 @@ namespace App.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.CategoriaId = new SelectList(await _categoriaRepository.Listar(), "Id", "Nome", viewModel.CategoriaId);
+            ViewBag.CategoriaId = new SelectList(await _categoriaRepository.Listar(usuario.Id), "Id", "Nome", viewModel.CategoriaId);
 
             return View("Criar", viewModel);
         }
@@ -73,10 +77,12 @@ namespace App.Controllers
         [HttpGet]
         public async Task<IActionResult> Editar(int id)
         {
+            var usuario = await _userManager.GetUserAsync(User);
+
             var nota = await _notaRepository.BuscarPorId(id);
             var viewModel = _mapper.Map<NotaViewModel>(nota);
 
-            ViewBag.CategoriaId = new SelectList(await _categoriaRepository.Listar(), "Id", "Nome");
+            ViewBag.CategoriaId = new SelectList(await _categoriaRepository.Listar(usuario.Id), "Id", "Nome");
 
             return View(viewModel);
         }
@@ -99,7 +105,6 @@ namespace App.Controllers
         public async Task<IActionResult> Excluir(int id)
         {
             var tarefa = await _notaRepository.BuscarPorId(id);
-
 
             await _notaRepository.Excluir(tarefa);
 

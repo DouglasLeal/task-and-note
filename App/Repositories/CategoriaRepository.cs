@@ -22,9 +22,9 @@ namespace App.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IList<Categoria>> Listar()
+        public async Task<IList<Categoria>> Listar(string usuarioId)
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.OrderBy(c => c.Nome).Where(c => c.AspNetUserId == usuarioId).ToListAsync();
         }
 
         public async Task<Categoria?> BuscarPorId(int id)

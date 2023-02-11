@@ -1,10 +1,12 @@
 ﻿using App.Data;
 using App.Interfaces;
 using App.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Repositories
 {
+    [Authorize]
     public class NotaRepository : INotaRepository
     {
         private readonly ApplicationDbContext _db;
@@ -22,9 +24,9 @@ namespace App.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IList<Nota>> Listar()
+        public async Task<IList<Nota>> Listar(string usuarioId)
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.Where(n => n.AspNetUserId == usuarioId).ToListAsync();
         }
 
         public async Task<Nota?> BuscarPorId(int id)

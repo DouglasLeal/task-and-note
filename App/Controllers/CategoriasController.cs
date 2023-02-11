@@ -3,12 +3,14 @@ using App.Models;
 using App.Repositories;
 using App.ViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Slugify;
 
 namespace App.Controllers
 {
+    [Authorize]
     public class CategoriasController : Controller
     {
         private readonly ICategoriaRepository _categoriaRepository;
@@ -30,7 +32,8 @@ namespace App.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var categorias = await _categoriaRepository.Listar();
+            var usuario = await _userManager.GetUserAsync(User);
+            var categorias = await _categoriaRepository.Listar(usuario.Id);
 
             var viewModels = _mapper.Map<IEnumerable<CategoriaViewModel>>(categorias);
             ViewBag.Categorias = viewModels;
@@ -39,10 +42,12 @@ namespace App.Controllers
 
         public async Task<IActionResult> Criar([Bind("Nome, Slug")] CategoriaViewModel viewModel)
         {
+            var usuario = await _userManager.GetUserAsync(User);
+
             if (ModelState.IsValid)
             {
                 var categoria = _mapper.Map<Categoria>(viewModel);
-                var usuario = await _userManager.GetUserAsync(User);
+                
                 categoria.AspNetUserId = usuario.Id;
 
                 if(viewModel.Slug == null)
@@ -58,7 +63,7 @@ namespace App.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var categorias = await _categoriaRepository.Listar();
+            var categorias = await _categoriaRepository.Listar(usuario.Id);
             var viewModels = _mapper.Map<IEnumerable<CategoriaViewModel>>(categorias);
             ViewBag.Categorias = viewModels;
             return View("Index", viewModel);
@@ -67,7 +72,9 @@ namespace App.Controllers
         
         public async Task<IActionResult> Editar(int id)
         {
-            var categorias = await _categoriaRepository.Listar();
+            var usuario = await _userManager.GetUserAsync(User);
+
+            var categorias = await _categoriaRepository.Listar(usuario.Id);
             var categoria = await _categoriaRepository.BuscarPorId(id);
 
             var viewModels = _mapper.Map<IEnumerable<CategoriaViewModel>>(categorias);
@@ -79,10 +86,12 @@ namespace App.Controllers
         [HttpPost]
         public async Task<IActionResult> EditarAction([Bind("Id, Nome, Slug")] CategoriaViewModel viewModel)
         {
+            var usuario = await _userManager.GetUserAsync(User);
+
             if (ModelState.IsValid)
             {
                 var categoria = _mapper.Map<Categoria>(viewModel);
-                var usuario = await _userManager.GetUserAsync(User);
+                
                 categoria.AspNetUserId = usuario.Id;
 
                 if (viewModel.Slug == null)
@@ -98,7 +107,7 @@ namespace App.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var categorias = await _categoriaRepository.Listar();
+            var categorias = await _categoriaRepository.Listar(usuario.Id);
             var viewModels = _mapper.Map<IEnumerable<CategoriaViewModel>>(categorias);
             ViewBag.Categorias = viewModels;
             return View("Index", viewModel);
