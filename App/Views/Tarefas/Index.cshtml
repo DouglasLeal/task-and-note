@@ -1,8 +1,9 @@
 ﻿@using App.ViewModels;
 @model TarefaViewModel;
 @{
-    var Tarefas = ViewBag.Tarefas;
+    ViewData["Title"] = "Tarefas";
 
+    var Tarefas = ViewBag.Tarefas;
 
     string ChekedSeConcluido(bool concluido){
         if(concluido) return "checked";
@@ -12,7 +13,7 @@
 }
 
 <main class="tarefas">
-    <h1 class="text-center">Tarefas</h1>
+    <h1 class="text-center">@ViewData["Title"]</h1>
 
     <div class="card box-shadow mb-5">
         <div class="card-body">
@@ -33,11 +34,13 @@
     {
         <div class="card box-shadow pt-3">
             <div class="card-body">
+                <p class="text-muted text-end"><i class="fa-solid fa-circle-question"></i> Editar: Clique duas vezes com o mouse sobre o texto da tarefa.</p>
+
                 @foreach (TarefaViewModel tarefa in Tarefas)
                 {
-                    <div class="bg-dark bg-gradient text-white p-3 mb-3 d-flex justify-content-between @ChekedSeConcluido(tarefa.Concluido)">
-                        <div class="d-flex align-items-center">
-                            <form asp-action="EditarCheckbox" class="me-3">
+                    <div class="bg-dark bg-gradient text-white p-3 mb-3 d-flex align-items-center justify-content-between @ChekedSeConcluido(tarefa.Concluido)">
+                        <div class="d-flex flex-grow-1 align-items-center">
+                            <form asp-action="EditarCheckbox" class="me-3 ">
                                 <input name="Id" type="hidden" value="@tarefa.Id">
                                 @if (tarefa.Concluido)
                                 {
@@ -48,10 +51,10 @@
                                     <input name="Concluido" class="m-0" type="checkbox" value="@tarefa.Concluido">
                                 }
                             </form>
-                            <p data-id="@tarefa.Id" class="conteudo m-0">@tarefa.Conteudo</p>
+                            <p data-id="@tarefa.Id" class="conteudo flex-grow-1 m-0 py-3">@tarefa.Conteudo</p>
                         </div>
 
-                        <form asp-action="Excluir">
+                        <form asp-action="Excluir" class="ms-3">
                             <input name="Id" type="hidden" value="@tarefa.Id">
                             <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
                         </form>
@@ -126,6 +129,8 @@
 
         let form = document.createElement("form");
         form.action = "/Tarefas/EditarConteudo";
+        form.classList.add("d-flex")
+        form.classList.add("flex-grow-1")
 
         let inputId = document.createElement("input");
         inputId.type = "hidden";
@@ -134,13 +139,14 @@
 
         let divInputGroup = document.createElement("div");
         divInputGroup.classList.add("input-group")
+        divInputGroup.classList.add("d-flex")
 
         let inputConteudo = document.createElement("input");
         inputConteudo.type = "text";
         inputConteudo.name = "Conteudo";
         inputConteudo.value = ultimoConteudoClicado;
         inputConteudo.classList.add("form-control");
-
+        inputConteudo.classList.add("flex-grow-1");       
 
         let button = document.createElement("button");
         button.innerText = "Editar";
