@@ -34,10 +34,28 @@
 }
 
 <h1 class="text-center mb-3">@ViewData["Title"]</h1>
+<div class="d-flex justify-content-between">
+    <p>
+        <a asp-action="Criar">Criar Novo</a>
+    </p>
 
-<p>
-    <a asp-action="Criar">Criar Novo</a>
-</p>
+    <div class="form-group mb-3">
+        <label class="control-label fw-bold">
+            Buscar por categoria:
+        </label>
+        <form asp-action="Categorias" method="post" class="form-categorias">
+            <select id="selectCategoriaId" class="form-control" name="categoriaId">
+                <option value="">--- SELECIONAR ---</option>
+                <option value="">todos</option>
+                @foreach (Categoria categoria in ViewBag.Categorias)
+                {
+                    <option value="@categoria.Id">@categoria.Nome</option>
+                }
+            </select>
+        </form>
+    </div>
+</div>
+
 
 <div class="row">
     @if (Model.Count() > 0)
@@ -69,6 +87,16 @@
     }
     else
     {
-        <p class="alert alert-info text-center">Nenhuma nota cadastrada.</p>       
-    }   
+        <p class="alert alert-info text-center">Nenhuma nota cadastrada.</p>
+    }
 </div>
+
+<script>
+    let form = document.querySelector(".form-categorias");
+    let select = document.querySelector("#selectCategoriaId");
+
+    select.onchange = () => {
+        form.submit();
+    }
+
+</script>

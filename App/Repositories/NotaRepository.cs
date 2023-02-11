@@ -25,8 +25,13 @@ namespace App.Repositories
 
         public async Task<IList<Nota>> Listar(string usuarioId)
         {
-            return await _dbSet.Where(n => n.AspNetUserId == usuarioId).Include(n => n.Categoria).ToListAsync();
+            return await _dbSet.Where(n => n.AspNetUserId == usuarioId).Include(n => n.Categoria).OrderByDescending(n => n.Id).ToListAsync();
         }
+        public async Task<IList<Nota>> ListarPorCategoria(string usuarioId, int categoriaId)
+        {
+            return await _dbSet.Where(n => n.AspNetUserId == usuarioId && n.CategoriaId == categoriaId).Include(n => n.Categoria).OrderByDescending(n => n.Id).ToListAsync();
+        }
+
 
         public async Task<Nota?> BuscarPorId(int id)
         {

@@ -41,10 +41,29 @@ namespace App.Controllers
             var usuario = await _userManager.GetUserAsync(User);
 
             var notas = await _notaRepository.Listar(usuario.Id);
+            ViewBag.Categorias = await _categoriaRepository.Listar(usuario.Id);
 
             var viewModels = _mapper.Map<IEnumerable<NotaViewModel>>(notas);
             return View(viewModels);
         }
+
+        public async Task<IActionResult> Categorias(int categoriaId)
+        {
+            if(categoriaId == 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var usuario = await _userManager.GetUserAsync(User);
+
+            var notas = await _notaRepository.ListarPorCategoria(usuario.Id, categoriaId);
+            ViewBag.Categorias = await _categoriaRepository.Listar(usuario.Id);
+
+            var viewModels = _mapper.Map<IEnumerable<NotaViewModel>>(notas);
+            return View("index", viewModels);
+        }
+
+
 
         [HttpGet]
         public async Task<IActionResult> Criar()
