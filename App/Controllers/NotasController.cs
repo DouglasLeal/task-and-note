@@ -3,6 +3,7 @@ using App.Models;
 using App.Repositories;
 using App.ViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using System.Runtime.ConstrainedExecution;
 
 namespace App.Controllers
 {
+    [Authorize]
     public class NotasController : Controller
     {
         private readonly INotaRepository _notaRepository;

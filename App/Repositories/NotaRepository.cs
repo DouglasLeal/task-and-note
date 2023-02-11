@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.Repositories
 {
-    [Authorize]
     public class NotaRepository : INotaRepository
     {
         private readonly ApplicationDbContext _db;

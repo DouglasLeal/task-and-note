@@ -14,21 +14,22 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">App</a>
+                <a class="navbar-brand" asp-controller="Tarefas" asp-action="Index">Task&Note</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 gap-3">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Tarefas" asp-action="Index">Tarefas</a>
+                            <a class="btn btn-outline-secondary" asp-area="" asp-controller="Tarefas" asp-action="Index">Tarefas</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Categorias" asp-action="Index">Categorias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Notas" asp-action="Index">Notas</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="btn btn-outline-secondary" asp-area="" asp-controller="Notas" asp-action="Index">Notas</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="text-primary btn btn-link dropdown-item" asp-area="" asp-controller="Categorias" asp-action="Index">Categorias</a></li>
+                            </ul>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -42,9 +43,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted text-center">
         <div class="container">
-            &copy; 2023 - App - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 - Task&Note - Douglas Leal
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
